@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Performance Predictor</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2ec;
+    --cream: #ede9e0;
+    --muted: #8a8478;
+    --accent: #c8502a;
+    --accent-light: #f0e8e3;
+    --line: rgba(15,14,12,0.12);
+    --input-bg: rgba(15,14,12,0.03);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  /* ── MASTHEAD ── */
+  .masthead {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 20px 0 16px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0;
+  }
+
+  .masthead-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .issue-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .masthead-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .masthead-right {
+    text-align: right;
+  }
+
+  .masthead-sub {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* ── FORM COLUMN ── */
+  .form-col {
+    padding: 32px 32px 32px 0;
+    border-right: 1px solid var(--ink);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .section-num {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .field-group {
+    margin-bottom: 28px;
+  }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .field select,
+  .field input[type="number"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 12.5px;
+    font-weight: 400;
+    color: var(--ink);
+    background: var(--input-bg);
+    border: 1px solid var(--line);
+    border-bottom: 1.5px solid rgba(15,14,12,0.25);
+    border-radius: 0;
+    padding: 9px 10px;
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    outline: none;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  .select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--muted);
+    border-bottom: 1.5px solid var(--muted);
+    pointer-events: none;
+    transition: transform 0.2s;
+  }
+
+  .field select:focus,
+  .field input[type="number"]:focus {
+    border-color: var(--ink);
+    border-bottom-color: var(--accent);
+    background: white;
+  }
+
+  .field input[type="number"]::placeholder {
+    color: rgba(15,14,12,0.25);
+    font-weight: 300;
+  }
+
+  /* Score inputs special */
+  .score-section {
+    padding-top: 20px;
+    border-top: 1px dashed var(--line);
+  }
+
+  .score-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .score-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .score-field label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .score-input-wrap {
+    position: relative;
+  }
+
+  .score-input-wrap input {
+    font-family: 'DM Mono', monospace;
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid rgba(15,14,12,0.25);
+    padding: 4px 0 8px;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .score-input-wrap input:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  .score-input-wrap input::placeholder {
+    color: rgba(15,14,12,0.18);
+    font-weight: 300;
+    font-size: 22px;
+  }
+
+  .score-grade {
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .score-grade.visible { opacity: 1; }
+
+  /* ── SUBMIT ── */
+  .submit-area {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .submit-note {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+  }
+
+  .submit-note span {
+    display: block;
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  button[type="submit"] {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    border: none;
+    padding: 13px 24px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  button[type="submit"]::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  button[type="submit"]:hover::after { transform: translateX(0); }
+  button[type="submit"]:hover { transform: translateY(-1px); }
+
+  button[type="submit"] span {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    padding: 32px 0 32px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .sidebar-block {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sidebar-tag {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .sidebar-text {
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  /* Result panel */
+  .result-panel {
+    background: var(--ink);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .result-panel .r-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,242,236,0.45);
+  }
+
+  .result-panel .r-value {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px;
+    color: var(--paper);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .result-panel .r-sub {
+    font-size: 10px;
+    color: rgba(245,242,236,0.45);
+    letter-spacing: 0.05em;
+  }
+
+  .result-panel.has-result .r-value {
+    color: var(--accent);
+    filter: none;
+  }
+
+  /* Progress dots */
+  .progress-dots {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border: 1px solid rgba(15,14,12,0.2);
+    border-radius: 50%;
+    transition: background 0.2s, border-color 0.2s;
+  }
+
+  .dot.filled {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    padding: 14px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-text {
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .footer-accent {
+    font-size: 9.5px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    font-style: italic;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .masthead { animation: fadeUp 0.5s ease both; }
+  .layout   { animation: fadeUp 0.5s 0.1s ease both; }
+  .footer   { animation: fadeUp 0.5s 0.2s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .layout { grid-template-columns: 1fr; }
+    .form-col { padding: 24px 0; border-right: none; border-bottom: 1px solid var(--ink); }
+    .sidebar { padding: 24px 0; }
+    .field-row, .score-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="masthead-left">
+      <span class="issue-tag">Academic Intelligence System · Vol. 01</span>
+      <h1 class="masthead-title">Performance<br><em>Predictor</em></h1>
+    </div>
+    <div class="masthead-right">
+      <p class="masthead-sub">
+        Maths Score<br>
+        Prediction Engine<br>
+        ——————<br>
+        ML Model v2.4
+      </p>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="layout">
+
+    <!-- FORM -->
+    <div class="form-col">
+      <form action="{{ url_for('predict_datapoint') }}" method="post" id="mainForm">
+
+        <!-- Section 01 -->
+        <div class="field-group">
+          <div class="section-head">
+            <span class="section-num">01</span>
+            <span class="section-label">Demographic Profile</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Gender</label>
+              <div class="select-wrap">
+                <select name="gender" required>
+                  <option disabled selected value="">— select —</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Race or Ethnicity</label>
+              <div class="select-wrap">
+                <select name="ethnicity" required>
+                  <option disabled selected value="">— select —</option>
+                  <option value="group A">Group A</option>
+                  <option value="group B">Group B</option>
+                  <option value="group C">Group C</option>
+                  <option value="group D">Group D</option>
+                  <option value="group E">Group E</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 02 -->
+        <div class="field-group">
+          <div class="section-head">
+            <span class="section-num">02</span>
+            <span class="section-label">Academic Context</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="field" style="margin-bottom: 16px;">
+            <label>Parental Level of Education</label>
+            <div class="select-wrap">
+              <select name="parental_level_of_education" required>
+                <option disabled selected value="">— select —</option>
+                <option value="associate's degree">Associate's Degree</option>
+                <option value="bachelor's degree">Bachelor's Degree</option>
+                <option value="high school">High School</option>
+                <option value="master's degree">Master's Degree</option>
+                <option value="some college">Some College</option>
+                <option value="some high school">Some High School</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label>Lunch Type</label>
+              <div class="select-wrap">
+                <select name="lunch" required>
+                  <option disabled selected value="">— select —</option>
+                  <option value="free/reduced">Free / Reduced</option>
+                  <option value="standard">Standard</option>
+                </select>
+              </div>
+            </div>
+            <div class="field">
+              <label>Test Preparation Course</label>
+              <div class="select-wrap">
+                <select name="test_preparation_course" required>
+                  <option disabled selected value="">— select —</option>
+                  <option value="none">None</option>
+                  <option value="completed">Completed</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 03: Scores -->
+        <div class="field-group">
+          <div class="section-head">
+            <span class="section-num">03</span>
+            <span class="section-label">Existing Scores</span>
+            <div class="section-line"></div>
+          </div>
+
+          <div class="score-row score-section">
+            <div class="score-field">
+              <label>Reading Score</label>
+              <div class="score-input-wrap">
+                <input type="number" name="reading_score" id="readingScore" min="0" max="100" placeholder="00" required>
+                <span class="score-grade" id="readGrade"></span>
+              </div>
+            </div>
+            <div class="score-field">
+              <label>Writing Score</label>
+              <div class="score-input-wrap">
+                <input type="number" name="writing_score" id="writingScore" min="0" max="100" placeholder="00" required>
+                <span class="score-grade" id="writeGrade"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-area">
+          <div class="submit-note">
+            <span>Run Prediction</span>
+            7 variables · ML regression model
+          </div>
+          <button type="submit"><span>Predict →</span></button>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- Result panel -->
+      <div class="result-panel {% if results %}has-result{% endif %}">
+        <span class="r-label">Predicted Maths Score</span>
+        <span class="r-value">{{ results if results else '—' }}</span>
+        <span class="r-sub">out of 100 points</span>
+      </div>
+
+      <!-- Progress -->
+      <div class="sidebar-block">
+        <span class="sidebar-tag">Form Progress</span>
+        <div class="progress-dots" id="progressDots">
+          <div class="dot" id="dot-0"></div>
+          <div class="dot" id="dot-1"></div>
+          <div class="dot" id="dot-2"></div>
+          <div class="dot" id="dot-3"></div>
+          <div class="dot" id="dot-4"></div>
+          <div class="dot" id="dot-5"></div>
+          <div class="dot" id="dot-6"></div>
+        </div>
+        <p class="sidebar-text" id="progressText">0 of 7 fields complete</p>
+      </div>
+
+      <!-- About -->
+      <div class="sidebar-block">
+        <span class="sidebar-tag">About</span>
+        <p class="sidebar-text">
+          Model trained on 1,000+ student records. Inputs include socioeconomic factors and prior academic performance.
+        </p>
+      </div>
+
+      <!-- Score key -->
+      <div class="sidebar-block">
+        <span class="sidebar-tag">Grade Scale</span>
+        <p class="sidebar-text">
+          90–100 → A+<br>
+          80–89 &nbsp;→ A<br>
+          70–79 &nbsp;→ B<br>
+          60–69 &nbsp;→ C<br>
+          50–59 &nbsp;→ D<br>
+          0–49 &nbsp;&nbsp;→ F
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-text">Student Exam Performance Prediction System · 2025</span>
+    <span class="footer-accent">Powered by ML regression</span>
+  </div>
+
+</div>
+
+<script>
+  const allFields = document.querySelectorAll('#mainForm select, #mainForm input[type="number"]');
+  const dots = document.querySelectorAll('.dot');
+  const progressText = document.getElementById('progressText');
+
+  function gradeFor(val) {
+    const n = parseInt(val);
+    if (isNaN(n)) return '';
+    if (n >= 90) return 'A+';
+    if (n >= 80) return 'A';
+    if (n >= 70) return 'B';
+    if (n >= 60) return 'C';
+    if (n >= 50) return 'D';
+    return 'F';
+  }
+
+  function updateProgress() {
+    let count = 0;
+    allFields.forEach((f, i) => {
+      const filled = f.value && f.value !== '';
+      if (filled) count++;
+      if (dots[i]) dots[i].classList.toggle('filled', filled);
+    });
+    progressText.textContent = count + ' of 7 fields complete';
+  }
+
+  allFields.forEach(f => f.addEventListener('change', updateProgress));
+  allFields.forEach(f => f.addEventListener('input', updateProgress));
+
+  const readEl = document.getElementById('readingScore');
+  const writeEl = document.getElementById('writingScore');
+  const readGrade = document.getElementById('readGrade');
+  const writeGrade = document.getElementById('writeGrade');
+
+  readEl.addEventListener('input', function() {
+    const g = gradeFor(this.value);
+    readGrade.textContent = g;
+    readGrade.classList.toggle('visible', g !== '');
+    updateProgress();
+  });
+
+  writeEl.addEventListener('input', function() {
+    const g = gradeFor(this.value);
+    writeGrade.textContent = g;
+    writeGrade.classList.toggle('visible', g !== '');
+    updateProgress();
+  });
+
+  updateProgress();
+</script>
+
+</body>
+</html>
