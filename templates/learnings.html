@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What I Learned — Academic Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2ec;
+    --muted: #8a8478;
+    --accent: #c8502a;
+    --line: rgba(15,14,12,0.12);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .topbar-left { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right span { color: var(--accent); }
+
+  .back-link {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 10px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+    animation: fadeUp 0.4s 0.05s ease both;
+    opacity: 0;
+  }
+
+  .back-link:hover { color: var(--accent); }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.5s 0.1s ease both;
+    opacity: 0;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: block;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 7vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s 0.15s ease both;
+    opacity: 0;
+  }
+
+  h1 em { color: var(--accent); font-style: italic; }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s 0.2s ease both;
+    opacity: 0;
+  }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tl-item:first-child { border-top: 1px solid var(--ink); }
+  .tl-item:last-child { border-bottom: 1px solid var(--ink); }
+
+  .tl-num {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    font-weight: 500;
+    padding-top: 2px;
+  }
+
+  .tl-content {}
+
+  .tl-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .tl-text {
+    font-size: 11px;
+    line-height: 1.85;
+    color: var(--muted);
+  }
+
+  .tl-text strong { color: var(--ink); font-weight: 500; }
+
+  .tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .tl-tag {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(200,80,42,0.3);
+    padding: 3px 9px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--ink);
+    padding: 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeUp 0.5s 0.3s ease both;
+    opacity: 0;
+  }
+
+  .footer-text { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .footer-accent { font-family: 'DM Serif Display', serif; font-size: 11px; color: var(--accent); font-style: italic; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <span class="topbar-left">Academic Intelligence System · Vol. 01</span>
+    <span class="topbar-right">Project <span>Learnings</span></span>
+  </div>
+
+  <a href="/" class="back-link">← Back to Home</a>
+
+  <p class="hero-eyebrow">Key Takeaways</p>
+
+  <h1>What I <em>Learned</em><br>from This Project</h1>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <span class="tl-num">01</span>
+      <div class="tl-content">
+        <div class="tl-title">Modular & Scalable Code</div>
+        <p class="tl-text">Learned to structure ML projects into <strong>separate components</strong> — data ingestion, transformation, and model training — each in its own file with clean interfaces. This makes the codebase easy to debug, test, and extend without breaking other parts.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">OOP</span>
+          <span class="tl-tag">Pipelines</span>
+          <span class="tl-tag">Exception Handling</span>
+          <span class="tl-tag">Logging</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <span class="tl-num">02</span>
+      <div class="tl-content">
+        <div class="tl-title">End-to-End ML Pipeline</div>
+        <p class="tl-text">Built a full pipeline from raw CSV to <strong>live predictions</strong> — including preprocessing with ColumnTransformer, model selection with GridSearchCV across 7 algorithms, serialisation with pickle, and serving via Flask.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">scikit-learn</span>
+          <span class="tl-tag">GridSearchCV</span>
+          <span class="tl-tag">ColumnTransformer</span>
+          <span class="tl-tag">Flask</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <span class="tl-num">03</span>
+      <div class="tl-content">
+        <div class="tl-title">AWS Elastic Beanstalk Deployment</div>
+        <p class="tl-text">Deployed a Python Flask app to <strong>AWS Elastic Beanstalk</strong>, learning how EB handles environment setup, gunicorn configuration, WSGI path settings, Procfile parsing, and platform-specific quirks like Amazon Linux 2023.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">Elastic Beanstalk</span>
+          <span class="tl-tag">Gunicorn</span>
+          <span class="tl-tag">WSGI</span>
+          <span class="tl-tag">.ebextensions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <span class="tl-num">04</span>
+      <div class="tl-content">
+        <div class="tl-title">IAM Permissions & AWS Security</div>
+        <p class="tl-text">Learned how <strong>IAM roles and policies</strong> control what AWS services can do on your behalf. Debugged missing permissions like <code>elasticbeanstalk:CreateApplicationVersion</code> and understood the principle of least privilege in practice.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">IAM</span>
+          <span class="tl-tag">Policies</span>
+          <span class="tl-tag">Service Roles</span>
+          <span class="tl-tag">Permissions</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <span class="tl-num">05</span>
+      <div class="tl-content">
+        <div class="tl-title">CI/CD with AWS CodePipeline</div>
+        <p class="tl-text">Set up a <strong>continuous deployment pipeline</strong> that automatically deploys every GitHub push to production. Learned about pipeline stages, automated rollbacks, execution modes, and how to debug failed deployments from logs.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">CodePipeline</span>
+          <span class="tl-tag">GitHub Integration</span>
+          <span class="tl-tag">CI/CD</span>
+          <span class="tl-tag">Auto Deploy</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <span class="tl-num">06</span>
+      <div class="tl-content">
+        <div class="tl-title">MLOps Fundamentals</div>
+        <p class="tl-text">Got hands-on experience with <strong>MLOps concepts</strong> — treating ML models as software artifacts, versioning them, automating deployment, monitoring via logs, and understanding the gap between a notebook model and a production system.</p>
+        <div class="tl-tags">
+          <span class="tl-tag">MLOps</span>
+          <span class="tl-tag">Model Versioning</span>
+          <span class="tl-tag">Production ML</span>
+          <span class="tl-tag">Log Debugging</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <span class="footer-text">Student Exam Performance Prediction System · 2026</span>
+    <span class="footer-accent">Powered by ML regression</span>
+  </div>
+
+</div>
+</body>
+</html>

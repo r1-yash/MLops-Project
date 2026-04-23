@@ -51,7 +51,6 @@
     flex-direction: column;
   }
 
-  /* ── TOP BAR ── */
   .topbar {
     border-top: 3px solid var(--ink);
     border-bottom: 1px solid var(--ink);
@@ -63,25 +62,10 @@
     animation: fadeUp 0.4s ease both;
   }
 
-  .topbar-left {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+  .topbar-left { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right span { color: var(--accent); }
 
-  .topbar-right {
-    font-size: 9px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .topbar-right span {
-    color: var(--accent);
-  }
-
-  /* ── HERO ── */
   .hero {
     flex: 1;
     display: flex;
@@ -121,12 +105,8 @@
     opacity: 0;
   }
 
-  .hero-headline em {
-    color: var(--accent);
-    display: block;
-  }
+  .hero-headline em { color: var(--accent); display: block; }
 
-  /* Horizontal rule with label */
   .rule-label {
     display: flex;
     align-items: center;
@@ -136,21 +116,8 @@
     opacity: 0;
   }
 
-  .rule-label span {
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .rule-label::before,
-  .rule-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-  }
+  .rule-label span { font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+  .rule-label::before, .rule-label::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 
   .hero-body {
     font-size: 12px;
@@ -162,7 +129,6 @@
     opacity: 0;
   }
 
-  /* ── STATS ROW ── */
   .stats-row {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -173,32 +139,15 @@
     opacity: 0;
   }
 
-  .stat {
-    padding: 16px 20px;
-    border-right: 1px solid var(--ink);
-    border-bottom: 1px solid var(--ink);
-  }
+  .stat { padding: 16px 20px; border-right: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
 
-  .stat-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px;
-    color: var(--ink);
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .stat-label {
-    font-size: 9px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  /* ── CTA ── */
   .cta-row {
     display: flex;
     align-items: center;
-    gap: 24px;
+    gap: 16px;
+    flex-wrap: wrap;
     animation: fadeUp 0.5s 0.35s ease both;
     opacity: 0;
   }
@@ -211,8 +160,8 @@
     text-transform: uppercase;
     color: var(--paper);
     background: var(--ink);
-    border: none;
-    padding: 15px 32px;
+    border: 1px solid var(--ink);
+    padding: 15px 28px;
     cursor: pointer;
     text-decoration: none;
     display: inline-block;
@@ -232,17 +181,16 @@
 
   .cta-btn:hover::after { transform: translateX(0); }
   .cta-btn:hover { transform: translateY(-1px); }
-
   .cta-btn span { position: relative; z-index: 1; }
 
-  .cta-note {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    line-height: 1.6;
+  .cta-btn.outline {
+    background: transparent;
+    color: var(--ink);
   }
 
-  /* ── DECORATIVE COLUMN NUMBER ── */
+  .cta-btn.outline span { color: var(--ink); }
+  .cta-btn.outline:hover span { color: var(--paper); }
+
   .col-marker {
     position: fixed;
     right: 40px;
@@ -256,7 +204,6 @@
     white-space: nowrap;
   }
 
-  /* ── FOOTER ── */
   .footer {
     border-top: 1px solid var(--ink);
     padding: 16px 0 0;
@@ -267,47 +214,33 @@
     opacity: 0;
   }
 
-  .footer-text {
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+  .footer-text { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .footer-accent { font-family: 'DM Serif Display', serif; font-size: 11px; color: var(--accent); font-style: italic; }
 
-  .footer-accent {
-    font-family: 'DM Serif Display', serif;
-    font-size: 11px;
-    color: var(--accent);
-    font-style: italic;
-  }
-
-  /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 500px) {
     .hero-headline { font-size: 52px; }
     .stats-row { grid-template-columns: 1fr 1fr; }
     .col-marker { display: none; }
+    .cta-row { flex-direction: column; align-items: flex-start; }
   }
 </style>
 </head>
 <body>
 
-<div class="col-marker">Academic Intelligence System · 2025</div>
+<div class="col-marker">Academic Intelligence System · 2026</div>
 
 <div class="page">
 
-  <!-- TOP BAR -->
   <div class="topbar">
     <span class="topbar-left">Academic Intelligence System · Vol. 01</span>
     <span class="topbar-right">ML Model <span>v2.4</span></span>
   </div>
 
-  <!-- HERO -->
   <div class="hero">
 
     <p class="hero-eyebrow">Welcome</p>
@@ -326,7 +259,6 @@
       Enter a student's demographic profile and prior academic scores to predict their mathematics performance. Powered by a regression model trained on 1,000+ student records across socioeconomic and academic variables.
     </p>
 
-    <!-- STATS -->
     <div class="stats-row">
       <div class="stat">
         <div class="stat-num">1k+</div>
@@ -342,18 +274,14 @@
       </div>
     </div>
 
-    <!-- CTA -->
     <div class="cta-row">
       <a href="/predict" class="cta-btn"><span>Begin Prediction →</span></a>
-      <p class="cta-note">
-        Takes under 60 seconds.<br>
-        No account required.
-      </p>
+      <a href="/why-dataset" class="cta-btn outline"><span>Why this dataset?</span></a>
+      <a href="/learnings" class="cta-btn outline"><span>What I learned</span></a>
     </div>
 
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     <span class="footer-text">Student Exam Performance Prediction System · 2026</span>
     <span class="footer-accent">Powered by ML regression</span>

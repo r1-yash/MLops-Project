@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why This Dataset — Academic Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0c;
+    --paper: #f5f2ec;
+    --cream: #ede9e0;
+    --muted: #8a8478;
+    --accent: #c8502a;
+    --line: rgba(15,14,12,0.12);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .topbar {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 12px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    animation: fadeUp 0.4s ease both;
+  }
+
+  .topbar-left { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .topbar-right span { color: var(--accent); }
+
+  .back-link {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 10px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+    animation: fadeUp 0.4s 0.05s ease both;
+    opacity: 0;
+  }
+
+  .back-link:hover { color: var(--accent); }
+
+  .hero-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: fadeUp 0.5s 0.1s ease both;
+    opacity: 0;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    display: block;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(36px, 7vw, 64px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    animation: fadeUp 0.5s 0.15s ease both;
+    opacity: 0;
+  }
+
+  h1 em { color: var(--accent); font-style: italic; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1px solid var(--ink);
+    border-left: 1px solid var(--ink);
+    margin-bottom: 48px;
+    animation: fadeUp 0.5s 0.2s ease both;
+    opacity: 0;
+  }
+
+  .card {
+    padding: 24px 20px;
+    border-right: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .card-num {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  .card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.2;
+  }
+
+  .card-text {
+    font-size: 11px;
+    line-height: 1.8;
+    color: var(--muted);
+  }
+
+  .section-block {
+    margin-bottom: 36px;
+    animation: fadeUp 0.5s 0.25s ease both;
+    opacity: 0;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .section-num { font-size: 10px; letter-spacing: 0.15em; color: var(--accent); font-weight: 500; }
+  .section-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 5px 12px;
+  }
+
+  .prose {
+    font-size: 12px;
+    line-height: 1.9;
+    color: var(--muted);
+  }
+
+  .prose strong { color: var(--ink); font-weight: 500; }
+
+  .footer {
+    border-top: 1px solid var(--ink);
+    padding: 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: fadeUp 0.5s 0.3s ease both;
+    opacity: 0;
+  }
+
+  .footer-text { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .footer-accent { font-family: 'DM Serif Display', serif; font-size: 11px; color: var(--accent); font-style: italic; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="topbar">
+    <span class="topbar-left">Academic Intelligence System · Vol. 01</span>
+    <span class="topbar-right">Dataset <span>Analysis</span></span>
+  </div>
+
+  <a href="/" class="back-link">← Back to Home</a>
+
+  <p class="hero-eyebrow">Dataset Rationale</p>
+
+  <h1>Why <em>This</em><br>Dataset?</h1>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-num">01</div>
+      <div class="card-title">EDA Friendly</div>
+      <div class="card-text">Clean structure with no missing values makes it ideal for exploratory data analysis without heavy preprocessing overhead.</div>
+    </div>
+    <div class="card">
+      <div class="card-num">02</div>
+      <div class="card-title">Categorical Richness</div>
+      <div class="card-text">Multiple categorical columns like gender, ethnicity, and education level make it perfect for practising One-Hot Encoding pipelines.</div>
+    </div>
+    <div class="card">
+      <div class="card-num">03</div>
+      <div class="card-title">Socioeconomic Depth</div>
+      <div class="card-text">Captures real-world factors like lunch type and parental education — letting the model learn from meaningful socioeconomic signals.</div>
+    </div>
+    <div class="card">
+      <div class="card-num">04</div>
+      <div class="card-title">Regression Ready</div>
+      <div class="card-text">A continuous numeric target (math score) makes it well-suited for comparing multiple regression algorithms side by side.</div>
+    </div>
+    <div class="card">
+      <div class="card-num">05</div>
+      <div class="card-title">Pipeline Practice</div>
+      <div class="card-text">Mixed data types (numerical + categorical) require a proper ColumnTransformer + Pipeline setup — exactly what production ML looks like.</div>
+    </div>
+    <div class="card">
+      <div class="card-num">06</div>
+      <div class="card-title">Interpretable Results</div>
+      <div class="card-text">Predictions are intuitive and easy to validate, making it great for understanding model behaviour and communicating results.</div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <span class="section-num">—</span>
+      <span class="section-label">Features Used</span>
+    </div>
+    <div class="tag-list">
+      <span class="tag">Gender</span>
+      <span class="tag">Race / Ethnicity</span>
+      <span class="tag">Parental Education</span>
+      <span class="tag">Lunch Type</span>
+      <span class="tag">Test Prep Course</span>
+      <span class="tag">Reading Score</span>
+      <span class="tag">Writing Score</span>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <div class="section-head">
+      <span class="section-num">—</span>
+      <span class="section-label">Why It Works for ML Practice</span>
+    </div>
+    <p class="prose">
+      The dataset strikes the right balance between <strong>simplicity and depth</strong>. With 1,000 records and 8 columns, it's large enough to train meaningful models but small enough to iterate quickly. The mix of categorical and numerical features forces you to build proper <strong>preprocessing pipelines</strong> rather than shortcuts. The clear target variable and interpretable features make it easy to <strong>reason about model predictions</strong> — a skill that matters far more than raw accuracy in real-world ML work.
+    </p>
+  </div>
+
+  <div class="footer">
+    <span class="footer-text">Student Exam Performance Prediction System · 2026</span>
+    <span class="footer-accent">Powered by ML regression</span>
+  </div>
+
+</div>
+</body>
+</html>

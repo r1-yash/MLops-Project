@@ -31,7 +31,6 @@
     overflow-x: hidden;
   }
 
-  /* Subtle grid texture */
   body::before {
     content: '';
     position: fixed;
@@ -44,14 +43,8 @@
     z-index: 0;
   }
 
-  .page {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 680px;
-  }
+  .page { position: relative; z-index: 1; width: 100%; max-width: 680px; }
 
-  /* ── MASTHEAD ── */
   .masthead {
     border-top: 3px solid var(--ink);
     border-bottom: 1px solid var(--ink);
@@ -62,42 +55,33 @@
     margin-bottom: 0;
   }
 
-  .masthead-left {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  .masthead-left { display: flex; flex-direction: column; gap: 4px; }
+
+  .issue-tag { font-family: 'DM Mono', monospace; font-size: 10px; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  .masthead-title { font-family: 'DM Serif Display', serif; font-size: clamp(28px, 5vw, 42px); line-height: 1; letter-spacing: -0.02em; color: var(--ink); }
+
+  .masthead-right { text-align: right; }
+
+  .masthead-sub { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); line-height: 1.8; }
+
+  .back-bar {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 0;
   }
 
-  .issue-tag {
-    font-family: 'DM Mono', monospace;
+  .back-link {
     font-size: 10px;
-    font-weight: 500;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
   }
 
-  .masthead-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 5vw, 42px);
-    line-height: 1;
-    letter-spacing: -0.02em;
-    color: var(--ink);
-  }
+  .back-link:hover { color: var(--accent); }
 
-  .masthead-right {
-    text-align: right;
-  }
-
-  .masthead-sub {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-
-  /* ── LAYOUT ── */
   .layout {
     display: grid;
     grid-template-columns: 1fr 220px;
@@ -105,63 +89,20 @@
     border-bottom: 1px solid var(--ink);
   }
 
-  /* ── FORM COLUMN ── */
-  .form-col {
-    padding: 32px 32px 32px 0;
-    border-right: 1px solid var(--ink);
-  }
+  .form-col { padding: 32px 32px 32px 0; border-right: 1px solid var(--ink); }
 
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
+  .section-head { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .section-num { font-size: 10px; letter-spacing: 0.15em; color: var(--accent); font-weight: 500; }
+  .section-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+  .section-line { flex: 1; height: 1px; background: var(--line); }
 
-  .section-num {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    color: var(--accent);
-    font-weight: 500;
-  }
+  .field-group { margin-bottom: 28px; }
 
-  .section-label {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
 
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--line);
-  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
 
-  .field-group {
-    margin-bottom: 28px;
-  }
-
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 16px;
-  }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .field label {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
+  .field label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
 
   .field select,
   .field input[type="number"] {
@@ -182,9 +123,7 @@
     outline: none;
   }
 
-  .select-wrap {
-    position: relative;
-  }
+  .select-wrap { position: relative; }
 
   .select-wrap::after {
     content: '';
@@ -197,7 +136,6 @@
     border-right: 1.5px solid var(--muted);
     border-bottom: 1.5px solid var(--muted);
     pointer-events: none;
-    transition: transform 0.2s;
   }
 
   .field select:focus,
@@ -207,40 +145,17 @@
     background: white;
   }
 
-  .field input[type="number"]::placeholder {
-    color: rgba(15,14,12,0.25);
-    font-weight: 300;
-  }
+  .field input[type="number"]::placeholder { color: rgba(15,14,12,0.25); font-weight: 300; }
 
-  /* Score inputs special */
-  .score-section {
-    padding-top: 20px;
-    border-top: 1px dashed var(--line);
-  }
+  .score-section { padding-top: 20px; border-top: 1px dashed var(--line); }
 
-  .score-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
+  .score-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-  .score-field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .score-field { display: flex; flex-direction: column; gap: 6px; }
 
-  .score-field label {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    font-weight: 500;
-  }
+  .score-field label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
 
-  .score-input-wrap {
-    position: relative;
-  }
+  .score-input-wrap { position: relative; }
 
   .score-input-wrap input {
     font-family: 'DM Mono', monospace;
@@ -256,53 +171,16 @@
     transition: border-color 0.2s;
   }
 
-  .score-input-wrap input:focus {
-    border-bottom-color: var(--accent);
-  }
+  .score-input-wrap input:focus { border-bottom-color: var(--accent); }
+  .score-input-wrap input::placeholder { color: rgba(15,14,12,0.18); font-weight: 300; font-size: 22px; }
 
-  .score-input-wrap input::placeholder {
-    color: rgba(15,14,12,0.18);
-    font-weight: 300;
-    font-size: 22px;
-  }
-
-  .score-grade {
-    position: absolute;
-    right: 0;
-    bottom: 10px;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--accent);
-    font-weight: 500;
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
-
+  .score-grade { position: absolute; right: 0; bottom: 10px; font-size: 10px; letter-spacing: 0.12em; color: var(--accent); font-weight: 500; opacity: 0; transition: opacity 0.2s; }
   .score-grade.visible { opacity: 1; }
 
-  /* ── SUBMIT ── */
-  .submit-area {
-    margin-top: 28px;
-    padding-top: 20px;
-    border-top: 1px solid var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+  .submit-area { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--ink); display: flex; align-items: center; justify-content: space-between; }
 
-  .submit-note {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.05em;
-    line-height: 1.5;
-  }
-
-  .submit-note span {
-    display: block;
-    color: var(--ink);
-    font-size: 11px;
-    font-weight: 500;
-  }
+  .submit-note { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; line-height: 1.5; }
+  .submit-note span { display: block; color: var(--ink); font-size: 11px; font-weight: 500; }
 
   button[type="submit"] {
     font-family: 'DM Mono', monospace;
@@ -331,130 +209,40 @@
 
   button[type="submit"]:hover::after { transform: translateX(0); }
   button[type="submit"]:hover { transform: translateY(-1px); }
+  button[type="submit"] span { position: relative; z-index: 1; }
 
-  button[type="submit"] span {
-    position: relative;
-    z-index: 1;
-  }
+  .sidebar { padding: 32px 0 32px 28px; display: flex; flex-direction: column; gap: 28px; }
 
-  /* ── SIDEBAR ── */
-  .sidebar {
-    padding: 32px 0 32px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
-  }
+  .sidebar-block { display: flex; flex-direction: column; gap: 8px; }
 
-  .sidebar-block {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  .sidebar-tag { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); padding-bottom: 6px; border-bottom: 1px solid var(--line); }
 
-  .sidebar-tag {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--line);
-  }
+  .sidebar-text { font-size: 11px; line-height: 1.7; color: var(--muted); }
 
-  .sidebar-text {
-    font-size: 11px;
-    line-height: 1.7;
-    color: var(--muted);
-  }
+  .result-panel { background: var(--ink); padding: 20px; display: flex; flex-direction: column; gap: 6px; }
+  .result-panel .r-label { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(245,242,236,0.45); }
+  .result-panel .r-value { font-family: 'DM Serif Display', serif; font-size: 52px; color: var(--paper); line-height: 1; letter-spacing: -0.02em; }
+  .result-panel .r-sub { font-size: 10px; color: rgba(245,242,236,0.45); letter-spacing: 0.05em; }
+  .result-panel.has-result .r-value { color: var(--accent); }
 
-  /* Result panel */
-  .result-panel {
-    background: var(--ink);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
+  .progress-dots { display: flex; gap: 6px; flex-wrap: wrap; }
+  .dot { width: 7px; height: 7px; border: 1px solid rgba(15,14,12,0.2); border-radius: 50%; transition: background 0.2s, border-color 0.2s; }
+  .dot.filled { background: var(--ink); border-color: var(--ink); }
 
-  .result-panel .r-label {
-    font-size: 9px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(245,242,236,0.45);
-  }
+  .footer { padding: 14px 0; display: flex; justify-content: space-between; align-items: center; }
+  .footer-text { font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  .footer-accent { font-size: 9.5px; color: var(--accent); letter-spacing: 0.05em; font-style: italic; font-family: 'DM Serif Display', serif; }
 
-  .result-panel .r-value {
-    font-family: 'DM Serif Display', serif;
-    font-size: 52px;
-    color: var(--paper);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-
-  .result-panel .r-sub {
-    font-size: 10px;
-    color: rgba(245,242,236,0.45);
-    letter-spacing: 0.05em;
-  }
-
-  .result-panel.has-result .r-value {
-    color: var(--accent);
-    filter: none;
-  }
-
-  /* Progress dots */
-  .progress-dots {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .dot {
-    width: 7px;
-    height: 7px;
-    border: 1px solid rgba(15,14,12,0.2);
-    border-radius: 50%;
-    transition: background 0.2s, border-color 0.2s;
-  }
-
-  .dot.filled {
-    background: var(--ink);
-    border-color: var(--ink);
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    padding: 14px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-text {
-    font-size: 9.5px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
-
-  .footer-accent {
-    font-size: 9.5px;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-    font-style: italic;
-    font-family: 'DM Serif Display', serif;
-  }
-
-  /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
   }
 
   .masthead { animation: fadeUp 0.5s ease both; }
+  .back-bar { animation: fadeUp 0.5s 0.05s ease both; }
   .layout   { animation: fadeUp 0.5s 0.1s ease both; }
   .footer   { animation: fadeUp 0.5s 0.2s ease both; }
 
-  /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .layout { grid-template-columns: 1fr; }
     .form-col { padding: 24px 0; border-right: none; border-bottom: 1px solid var(--ink); }
@@ -467,7 +255,6 @@
 
 <div class="page">
 
-  <!-- MASTHEAD -->
   <div class="masthead">
     <div class="masthead-left">
       <span class="issue-tag">Academic Intelligence System · Vol. 01</span>
@@ -483,21 +270,21 @@
     </div>
   </div>
 
-  <!-- MAIN LAYOUT -->
+  <div class="back-bar">
+    <a href="/" class="back-link">← Back to Home</a>
+  </div>
+
   <div class="layout">
 
-    <!-- FORM -->
     <div class="form-col">
       <form action="{{ url_for('predict_datapoint') }}" method="post" id="mainForm">
 
-        <!-- Section 01 -->
         <div class="field-group">
           <div class="section-head">
             <span class="section-num">01</span>
             <span class="section-label">Demographic Profile</span>
             <div class="section-line"></div>
           </div>
-
           <div class="field-row">
             <div class="field">
               <label>Gender</label>
@@ -525,14 +312,12 @@
           </div>
         </div>
 
-        <!-- Section 02 -->
         <div class="field-group">
           <div class="section-head">
             <span class="section-num">02</span>
             <span class="section-label">Academic Context</span>
             <div class="section-line"></div>
           </div>
-
           <div class="field" style="margin-bottom: 16px;">
             <label>Parental Level of Education</label>
             <div class="select-wrap">
@@ -547,7 +332,6 @@
               </select>
             </div>
           </div>
-
           <div class="field-row">
             <div class="field">
               <label>Lunch Type</label>
@@ -572,14 +356,12 @@
           </div>
         </div>
 
-        <!-- Section 03: Scores -->
         <div class="field-group">
           <div class="section-head">
             <span class="section-num">03</span>
             <span class="section-label">Existing Scores</span>
             <div class="section-line"></div>
           </div>
-
           <div class="score-row score-section">
             <div class="score-field">
               <label>Reading Score</label>
@@ -598,7 +380,6 @@
           </div>
         </div>
 
-        <!-- Submit -->
         <div class="submit-area">
           <div class="submit-note">
             <span>Run Prediction</span>
@@ -610,17 +391,14 @@
       </form>
     </div>
 
-    <!-- SIDEBAR -->
     <div class="sidebar">
 
-      <!-- Result panel -->
       <div class="result-panel {% if results %}has-result{% endif %}">
         <span class="r-label">Predicted Maths Score</span>
         <span class="r-value">{{ results if results else '—' }}</span>
         <span class="r-sub">out of 100 points</span>
       </div>
 
-      <!-- Progress -->
       <div class="sidebar-block">
         <span class="sidebar-tag">Form Progress</span>
         <div class="progress-dots" id="progressDots">
@@ -635,15 +413,11 @@
         <p class="sidebar-text" id="progressText">0 of 7 fields complete</p>
       </div>
 
-      <!-- About -->
       <div class="sidebar-block">
         <span class="sidebar-tag">About</span>
-        <p class="sidebar-text">
-          Model trained on 1,000+ student records. Inputs include socioeconomic factors and prior academic performance.
-        </p>
+        <p class="sidebar-text">Model trained on 1,000+ student records. Inputs include socioeconomic factors and prior academic performance.</p>
       </div>
 
-      <!-- Score key -->
       <div class="sidebar-block">
         <span class="sidebar-tag">Grade Scale</span>
         <p class="sidebar-text">
@@ -659,9 +433,8 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
-    <span class="footer-text">Student Exam Performance Prediction System · 2025</span>
+    <span class="footer-text">Student Exam Performance Prediction System · 2026</span>
     <span class="footer-accent">Powered by ML regression</span>
   </div>
 

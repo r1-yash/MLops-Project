@@ -16,7 +16,7 @@ from src.logger import logging
 
 @dataclass
 class DataTransformationConfig:
-    preprocessor_path = os.path.join('artifacts', "preprocessor.pkl")
+    preprocessor_path = os.path.join('artifacts', "preprocessor.pkl") #constructs a file path string in a platform-independent way using os.
 
 
 class DataTransformation:

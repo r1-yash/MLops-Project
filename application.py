@@ -26,10 +26,17 @@ def predict_datapoint():
             writing_score=float(request.form.get('writing_score'))
         )
         pred_df = data.get_data_as_data_frame()
-        print(pred_df)
         predict_pipeline = PredictPipeline()
         results = predict_pipeline.predict(pred_df)
         return render_template('index.html', results=round(results[0], 2))
+
+@app.route('/why-dataset')
+def why_dataset():
+    return render_template('why_dataset.html')
+
+@app.route('/learnings')
+def learnings():
+    return render_template('learnings.html')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
